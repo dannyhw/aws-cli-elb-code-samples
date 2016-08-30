@@ -12,8 +12,19 @@
 # on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
+# This file is based on aws codedeploy samples and edited for elb focused usage.
 
 . $(dirname $0)/common_functions.sh
+
+if [ "$#" -ne 1 ]; then
+  error_exit "no instance ip provided for registering"
+fi
+
+ip=$1
+INSTANCE_ID=$(get_instance_id_from_ip $ip)
+if [ $? != 0 -o -z "$INSTANCE_ID" ]; then
+  error_exit "Unable to get this instance's ID; cannot continue."
+fi
 
 # Get current time
 msg "Started $(basename $0) at $(/bin/date "+%F %T")"

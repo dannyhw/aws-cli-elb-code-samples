@@ -15,6 +15,16 @@
 
 . $(dirname $0)/common_functions.sh
 
+if [ "$#" -ne 1 ]; then
+  error_exit "no instance ip provided for de-registering"
+fi
+
+ip=$1
+INSTANCE_ID=$(get_instance_id_from_ip $ip)
+if [ $? != 0 -o -z "$INSTANCE_ID" ]; then
+    error_exit "Unable to get this instance's ID; cannot continue."
+fi
+
 # Get current time
 msg "Started $(basename $0) at $(/bin/date "+%F %T")"
 start_sec=$(/bin/date +%s.%N)

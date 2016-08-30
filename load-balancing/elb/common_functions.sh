@@ -356,3 +356,9 @@ get_instance_id() {
     curl -s http://169.254.169.254/latest/meta-data/instance-id
     return $?
 }
+
+# Usage: get_instance_id_from_ip 10.85.1.89
+get_instance_id_from_ip() {
+  id=$($AWS_CLI ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=private-ip-address,Values=$1" --output text)
+  return $?
+}
