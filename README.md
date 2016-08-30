@@ -1,13 +1,6 @@
 AWS CodeDeploy Samples
 ======================
-
-The samples in the repository each demonstrate one of a few different scenarios.
-These fall into one of a few different categories, including:
-
-- Sample Applications
-- Integrations and templates for configuration management systems
-- Integrations with load-balancers like Elastic Load Balancing
-- Sample hooks for version control systems like Git.
+Edited version of code deploy samples to remotely remove an instance from all lbs and re-add later for an app deploy situation. Useful if an instance is under multiple elbs and you are trying to manage this deployment from a different server.  
 
 License
 =======
