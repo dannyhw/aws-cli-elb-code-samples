@@ -21,8 +21,8 @@
 # Set to "_all_" to automatically find all load balancers the instance is registered to.
 # Set to "_any_" will work as "_all_" but will not fail if instance is not attached to
 # any ASG or ELB, giving flexibility.
-ELB_LIST="_all_"
-
+ELB_LIST=""
+ALL_IPS=""
 # Under normal circumstances, you shouldn't need to change anything below this line.
 # -----------------------------------------------------------------------------
 
@@ -161,7 +161,7 @@ wait_for_state() {
     local instance_state=$($instance_state_cmd)
     local count=1
 
-    msg "Instance is currently in state: $instance_state"
+    msg "Instance is currently in state: $instance_state on ELB $elb"
     while [ "$instance_state" != "$state_name" ]; do
         if [ $count -ge $WAITER_ATTEMPTS ]; then
             local timeout=$(($WAITER_ATTEMPTS * $WAITER_INTERVAL))
@@ -173,7 +173,7 @@ wait_for_state() {
 
         instance_state=$($instance_state_cmd)
         count=$(($count + 1))
-        msg "Instance is currently in state: $instance_state"
+        msg "Instance is currently in state: $instance_state on ELB $elb"
     done
 
     return 0
@@ -365,4 +365,9 @@ get_instance_id() {
 get_instance_id_from_ip() {
   local id=$($AWS_CLI ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=private-ip-address,Values=$1" --output text)
   echo "$id"
+  if [ -z "$id" -a "$id" != " " ]; then
+    return 1
+  else
+    return 0
+  fi
 }
