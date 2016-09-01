@@ -12,6 +12,9 @@
 # on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
+#
+# This file has been edited and parts have been removed. I have kept the original
+# licence information since it is still very similar to the original
 
 # ELB_LIST defines which Elastic Load Balancers this instance should be part of.
 # The elements in ELB_LIST should be separated by space. Safe default is "".
@@ -185,7 +188,7 @@ get_instance_health_elb() {
     local instance_id=$1
     local elb_name=$2
 
-    msg "Checking status of instance '$instance_id' in load balancer '$elb_name'"
+    # msg "Checking status of instance '$instance_id' in load balancer '$elb_name'"
 
     # If describe-instance-health for this instance returns an error, then it's not part of
     # this ELB. But, if the call was successful let's still double check that the status is
@@ -234,6 +237,7 @@ validate_elb() {
     if [ $? != 0 ]; then
         return 1
     fi
+    echo "Instance is: $instance_health"
 
     return 0
 }
@@ -359,6 +363,6 @@ get_instance_id() {
 
 # Usage: get_instance_id_from_ip 10.85.1.89
 get_instance_id_from_ip() {
-  id=$($AWS_CLI ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=private-ip-address,Values=$1" --output text)
-  return $?
+  local id=$($AWS_CLI ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=private-ip-address,Values=$1" --output text)
+  echo "$id"
 }
