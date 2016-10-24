@@ -1,4 +1,4 @@
-# ELB and ASG lifecycle event scripts
+# ELB and ASG lifecycle event scripts -- ASG sections removed since I can't support those sections as I make changes.
 
 Often when running a web service, you'll have your instances behind a load balancer. But when deploying new code to these instances, you don't want the load balancer to continue sending customer traffic to an instance while the deployment is in progress. Lifecycle event scripts give you the ability to integrate your AWS CodeDeploy deployments with instances that are behind an Elastic Load Balancer or in an Auto Scaling group. Simply set the name (or names) of the Elastic Load Balancer your instances are a part of, set the scripts in the appropriate lifecycle events, and the scripts will take care of deregistering the instance, waiting for connection draining, and re-registering after the deployment finishes.
 
