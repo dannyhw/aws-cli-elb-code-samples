@@ -1,6 +1,5 @@
 #!/bin/bash
 . $(dirname $0)/common_functions.sh
-
 if [ "$#" -ne 1 ]; then
   error_exit "no instance ip provided"
 fi
@@ -37,10 +36,10 @@ deregister_from_all_elbs() {
       error_exit "Failed waiting for $INSTANCE_ID to leave $elb"
     fi
   done
-  msg "Instance unregistered from all LB's in list."
+  msg "Instance un-registered from all LB's in list."
 }
+
 reregister_to_all_elbs() {
-  echo "re-register"
 
   for elb in $ELB_LIST; do
     msg "Checking validity of load balancer named '$elb'"
@@ -66,5 +65,5 @@ reregister_to_all_elbs() {
       error_exit "Failed waiting for $INSTANCE_ID to return to $elb"
     fi
   done
-  msg "Instance registered from all LB's in list."
+  msg "Instance registered on all LB's in list."
 }
